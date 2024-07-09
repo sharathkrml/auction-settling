@@ -2,15 +2,18 @@ import { ethers } from "ethers"
 import { MulticallWrapper } from "ethers-multicall-provider"
 import * as easyAuction from "./EasyAuction.json"
 
-const jsonProvider = new ethers.WebSocketProvider("https://eth.llamarpc.com")
+const EASY_AUCTION_ADDRESS = "0x0b7ffc1f4ad541a4ed16b40d8c37f0929158d101"
+const RPC_URL = "https://eth.llamarpc.com"
+
+const jsonProvider = new ethers.WebSocketProvider(RPC_URL)
 const multiCallProvider = MulticallWrapper.wrap(jsonProvider)
-let easyAuctionContract = new ethers.Contract("0x0b7ffc1f4ad541a4ed16b40d8c37f0929158d101", easyAuction, multiCallProvider)
+let easyAuctionContract = new ethers.Contract(EASY_AUCTION_ADDRESS, easyAuction, multiCallProvider)
 console.log("isMulticallEnabled:", multiCallProvider.isMulticallEnabled)
 
 export interface ClaimOrder {
-  auctionId: Number
-  encodedOrderId: string[]
-  blockNo: Number
+  auctionId: Number // get it from subgraph
+  encodedOrderId: string[] // get it from subgraph
+  blockNo: Number // won't be needed for live cases
 }
 
 export const calculateRewardAndRefund = async (orders: ClaimOrder[]) => {
