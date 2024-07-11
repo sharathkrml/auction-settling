@@ -32,7 +32,7 @@ export const calculateRewardAndRefundMultiCall = async (orders: ClaimOrder[]): P
     })
   }
   // console.log(aggregate3Calldata(calls)) // just calldata
-  let txResp = await multiCall3.aggregate3.staticCall(calls, { blockTag: 12467893 })
+  let txResp = await multiCall3.aggregate3.staticCall(calls)
   // let txResp = await multiCall3.aggregate3(calls) // for actual call
   for (let i = 0; i < txResp.length; i++) {
     // txResp[i][0] is a boolean that indicates if the call was successful
@@ -50,15 +50,11 @@ export const calculateRewardAndRefundMultiCall = async (orders: ClaimOrder[]): P
 
 calculateRewardAndRefundMultiCall([
   {
-    auctionId: "8",
-    encodedOrderId: ["0x0000000000000003000000022b1c8c1227a000000000000238fd42c5cf040000"],
+    auctionId: "20",
+    encodedOrderId: ["0x0000000000000004000000056bc75e2d631000000000000579a814e10a740000"],
   },
   {
-    auctionId: "8",
-    encodedOrderId: ["0x000000000000000300000002b5e3af16b188000000000002c3c465ca58ec0000"],
-  },
-  {
-    auctionId: "198",
-    encodedOrderId: ["0x00000000000000060000003635c9adc5dea00000000069e11bc81d2a77e40000"],
+    auctionId: "20",
+    encodedOrderId: ["0x00000000000000020000000579a814e10a740000000000058788cb94b1d80000"],
   },
 ]).then((res) => console.log(res))
