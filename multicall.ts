@@ -31,9 +31,18 @@ export const calculateRewardAndRefundMultiCall = async (orders: ClaimOrder[]): P
       callData: claimFromParticipantOrderEncodedCalldata(order.auctionId, order.encodedOrderId),
     })
   }
-  // console.log(aggregate3Calldata(calls)) // just calldata
   let txResp = await multiCall3.aggregate3.staticCall(calls)
-  // let txResp = await multiCall3.aggregate3(calls) // for actual call
+  console.log({
+    chainId: "eip155:10",
+    method: "eth_sendTransaction",
+    params: {
+      abi: multiCall, // JSON ABI of the function selector and any errors
+      to: MULTICALL_CONTRACT,
+      data: aggregate3Calldata(calls),
+      value: "",
+    },
+  })
+
   for (let i = 0; i < txResp.length; i++) {
     // txResp[i][0] is a boolean that indicates if the call was successful
     if (txResp[i][0]) {
@@ -56,5 +65,14 @@ calculateRewardAndRefundMultiCall([
   {
     auctionId: "20",
     encodedOrderId: ["0x00000000000000020000000579a814e10a740000000000058788cb94b1d80000"],
+  },
+  {
+    auctionId: "19",
+    encodedOrderId: ["0x00000000000000060000003635c9adc5dea00000000069e11bc81d2a77e40000"],
+  },
+  {
+    // failure case
+    auctionId: "4",
+    encodedOrderId: ["0x0000000000000002000000000de0b6b3a7640000000000003782dace9d900000"],
   },
 ]).then((res) => console.log(res))
