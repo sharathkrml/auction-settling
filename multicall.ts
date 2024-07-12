@@ -27,7 +27,7 @@ export const calculateRewardAndRefundMultiCall = async (orders: ClaimOrder[]): P
   for (let order of orders) {
     calls.push({
       target: EASY_AUCTION,
-      allowFailure: true,
+      allowFailure: true, // means transaction won't revert if any of the call fails
       callData: claimFromParticipantOrderEncodedCalldata(order.auctionId, order.encodedOrderId),
     })
   }

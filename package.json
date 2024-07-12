@@ -2,7 +2,7 @@
   "name": "auction-settling",
   "version": "1.0.0",
   "scripts": {
-    "start": "ts-node multicall.ts"
+    "start": "ts-node getRewardAndRefund.ts"
   },
   "author": "",
   "license": "ISC",
